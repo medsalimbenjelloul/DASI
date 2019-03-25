@@ -1,5 +1,0 @@
-package com.sun.xml.internal.ws.org.objectweb.asm;
-
-public class Label {
-
-}
