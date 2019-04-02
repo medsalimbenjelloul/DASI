@@ -11,12 +11,14 @@ public class Main {
 		userContainer.run(args);
 		try {
 //			Initialization of all main agents
-			userContainer.addAgent(new TextProcessingAgent());
+			userContainer.addAgent("TextProcessing", TextProcessingAgent.class.getName());
 			
 //			Initialization of user/server agent
-			userContainer.addAgent(new UserAgent());
+			userContainer.addAgent("User", UserAgent.class.getName());
 		} catch (Exception e) {
 			e.printStackTrace();
+		} finally {
+			userContainer.kill();
 		}
 	}
 

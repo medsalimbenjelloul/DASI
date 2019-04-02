@@ -1,6 +1,5 @@
 package core;
 
-import jade.core.Agent;
 import jade.core.Profile;
 import jade.core.ProfileImpl;
 import jade.wrapper.AgentContainer;
@@ -26,16 +25,26 @@ public class UserContainer {
 		mainContainer = runtime.createMainContainer(profile);
 	}
 	
-	public AgentController addAgent(Agent agent) throws StaleProxyException {
-		AgentController controller = mainContainer.acceptNewAgent(agent.getAID().getName(), agent);
-		return controller;
+	public AgentController addAgent(String name, String className, Object[] objs) throws StaleProxyException {
+		AgentController agent = mainContainer.createNewAgent(name, className, objs);
+		agent.start();
+		
+		return agent;
 	}
 	
-	public AgentController addAgent(String name, String className, Object[] args) throws StaleProxyException {
-		AgentController controller = mainContainer.createNewAgent(name, className, args);
-		controller.start();
+	public AgentController addAgent(String name, String className) throws StaleProxyException {
+		AgentController agent = mainContainer.createNewAgent(name, className, new Object[0]);
+		agent.start();
 		
-		return controller;
+		return agent;
 	}
 
+	public void kill() {
+		try {
+			mainContainer.kill();
+		} catch (StaleProxyException e) {
+			e.printStackTrace();
+		}
+	}
+	
 }
