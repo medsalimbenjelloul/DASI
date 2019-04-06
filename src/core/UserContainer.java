@@ -21,21 +21,21 @@ public class UserContainer {
 
 	public void run(String[] args) {
 		init(args);
-
+		
 		mainContainer = runtime.createMainContainer(profile);
 	}
-
+	
 	public AgentController addAgent(String name, String className, Object[] objs) throws StaleProxyException {
 		AgentController agent = mainContainer.createNewAgent(name, className, objs);
 		agent.start();
-
+		
 		return agent;
 	}
-
+	
 	public AgentController addAgent(String name, String className) throws StaleProxyException {
 		AgentController agent = mainContainer.createNewAgent(name, className, new Object[0]);
 		agent.start();
-
+		
 		return agent;
 	}
 
@@ -46,5 +46,5 @@ public class UserContainer {
 			e.printStackTrace();
 		}
 	}
-
+	
 }
