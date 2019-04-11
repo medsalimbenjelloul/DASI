@@ -1,65 +1,67 @@
 package view;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-
-import javax.swing.JButton;
 import javax.swing.JPanel;
-import javax.swing.JTextArea;
+import java.awt.GridBagLayout;
+import javax.swing.JButton;
+import java.awt.GridBagConstraints;
+import java.awt.Font;
+import java.awt.Color;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
+import javax.swing.JScrollPane;
+import javax.swing.ScrollPaneConstants;
+
+import view.actions.SendAction;
 
 public class ChatView extends JPanel {
 	private static final long serialVersionUID = -9208148801434136681L;
 
-	private static final Font FONT = new Font("", Font.LAYOUT_LEFT_TO_RIGHT, 12);
+	private Window parentWindow;
+	private JTextField requestText;
 
-	private JPanel mainPanel = null;
-	private static JPanel conversationPanel = null;
-	private static JPanel inputPanel = null;
-
-	private static JTextArea conversationArea = null;
-	private static JTextField messageField = null;
-
-	private static JTextField inputField = null;
-	private static JButton sendButton = null;
-
-	public ChatView() {
-		this.mainPanel = new JPanel();
-		this.mainPanel.add(initConversationPanel(), BorderLayout.NORTH);
-		this.mainPanel.add(initInputPanel(), BorderLayout.SOUTH);
-
-		this.setBorder(UIManager.getBorder("TitledBorder.border"));
-		this.setLayout(new BorderLayout());
-		this.setBackground(Color.LIGHT_GRAY);
-		this.add(mainPanel);
+	public ChatView(Window window) {
+		setBackground(Color.WHITE);
+		setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 11));
+		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout.columnWidths = new int[] {62, 62, 62, 62, 62, 62, 62, 62, 62, 62};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0};
+		setLayout(gridBagLayout);
+		
+		JScrollPane conversationArea = new JScrollPane();
+		conversationArea.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		GridBagConstraints gbc_conversationArea = new GridBagConstraints();
+		gbc_conversationArea.fill = GridBagConstraints.BOTH;
+		gbc_conversationArea.gridheight = 9;
+		gbc_conversationArea.gridwidth = 10;
+		gbc_conversationArea.gridx = 0;
+		gbc_conversationArea.gridy = 0;
+		add(conversationArea, gbc_conversationArea);
+		
+		requestText = new JTextField();
+		requestText.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 11));
+		GridBagConstraints gbc_requestText = new GridBagConstraints();
+		gbc_requestText.gridwidth = 9;
+		gbc_requestText.fill = GridBagConstraints.BOTH;
+		gbc_requestText.gridx = 0;
+		gbc_requestText.gridy = 9;
+		add(requestText, gbc_requestText);
+		requestText.setColumns(10);
+		
+		JButton sendButton = new JButton("SEND");
+		sendButton.addActionListener(new SendAction());
+		sendButton.setBackground(Color.WHITE);
+		sendButton.setFont(new Font("Microsoft JhengHei UI", Font.PLAIN, 11));
+		GridBagConstraints gbc_sendButton = new GridBagConstraints();
+		gbc_sendButton.fill = GridBagConstraints.BOTH;
+		gbc_sendButton.gridx = 9;
+		gbc_sendButton.gridy = 9;
+		add(sendButton, gbc_sendButton);
+		parentWindow = window;
+		
 	}
 
-	private JPanel initConversationPanel() {
-		conversationArea = new JTextArea();
-		
-		GridBagConstraints right = new GridBagConstraints();
-		right.anchor = GridBagConstraints.EAST;
-		GridBagConstraints left = new GridBagConstraints();
-		left.anchor = GridBagConstraints.WEST;
-		
-		messageField = new JTextField();
-		
-		
-		conversationPanel = new JPanel();
-		conversationPanel.setLayout(new GridBagLayout());
-		conversationPanel.add(conversationArea, BorderLayout.NORTH);
-		conversationPanel.add(messageField, BorderLayout.SOUTH);
-		
-		return conversationPanel;
+	public Window getWindow() {
+		return parentWindow;
 	}
-
-	private JPanel initInputPanel() {
-		inputPanel = new JPanel();
-
-		return inputPanel;
-	}
+	
 }
